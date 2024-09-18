@@ -1,6 +1,6 @@
 ---
 title: Welcome
-date: 2024-09-18 12:00:00 +0530
+date: 2024-09-18 09:00:00 +0530
 categories: [Miscellaneous]
 tags: [random]     # TAG names should always be lowercase
 ---
