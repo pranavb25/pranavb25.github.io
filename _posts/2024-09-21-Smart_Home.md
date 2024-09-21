@@ -108,7 +108,7 @@ Here's how the stack appears on my main dashboard (built on Homarr):
 *Section of my Homarr setup displaying stats from Dashdot and AdGuard*
 
 
-* ***Portainer** helps get visibility into container health. Occasionally I need to restart some unstable ones.
+* **Portainer** helps get visibility into container health. Occasionally I need to restart some unstable ones.
 
 ![Portainer](/assets/img/posts/Portainer.png)
 
