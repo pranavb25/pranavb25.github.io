@@ -45,6 +45,7 @@ Sept 2019 - Jun 2022
 Jul 2017 - Apr 2019
 
 * Designed and verified high-speed data transfer chips (USB, HDMI etc) for flagship devices of Samsung, Apple, HP by leveraging cutting-edge 7 nm processes
+
 ## Non Work
 
 * [Projects](https://pranavbudhiraja.com/projects)
