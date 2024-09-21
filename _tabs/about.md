@@ -7,7 +7,7 @@ order: 1
 *Last updated at: 21st September 2024*
 
 👋, I am Pranav Budhiraja. This site is:
-* A documentation of my [my work](https://pranavbudhiraja.com/about/#Work) and
+* A documentation of my [my work](https://pranavbudhiraja.com/about/#work) and
 * A collection of [my thoughts](https://pranavbudhiraja.com/) on tech, finance and strategy
 
 ## Work
