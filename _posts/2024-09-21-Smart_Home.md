@@ -41,7 +41,7 @@ Most, if not all of the above are managed via docker containers.
 
 Now into the specifics:
 
-# Home Assistant
+## Home Assistant
 
 ![Home Assistant dashbaord](/assets/img/posts/HA.png)
 *My current HA dashboard (majorly WIP) which basically contains toggles for bulbs and sensor readings. The same is available on both iOS and Android as well*
@@ -58,7 +58,7 @@ That being said, I feel I've barely scratched the surface of what all HA has to 
 
 Both of these, I've enabled via Zigbee and WiFi integrations. 
 
-# Zigbee - for smart lights and sensors
+## Zigbee - for smart lights and sensors
 
 * Enabled via MQTT, Zigbee2MQTT + Sonoff Zigbee router stick that goes into the Pi
 * A Philips Hue bulb acts as a router as well and helps establish connection with the Sonoff temp and humidity sensor
@@ -66,15 +66,15 @@ Both of these, I've enabled via Zigbee and WiFi integrations.
 ![Zigbee devices](/assets/img/posts/Zigbee.png)
 *The above snippet from the Zigbee2MQTT panel shows how the Philips node connects to the main router while also acting as a router and helping establish a connection with the sensor.*
 
-# WiFi and LocalTuya - for smart lights
+## WiFi and LocalTuya - for smart lights
 
 * The other smart light I have is from Wipro and the hack used to get that onto HA was to use the LocalTuya integration.
 
-# ESPHome
+## ESPHome
 
 * I've also configured an ESP32 together with ESPHome to add a few sensors e.g. Sound. Haven't used this much till now.
 
-# Media Server
+## Media Server
 
 *Disclaimer: Purely for educational purposes*
 
@@ -102,7 +102,7 @@ Here's how the stack appears on my main dashboard (built on Homarr):
 ![Media download stats](/assets/img/posts/Downloads.png)
 *The Homarr <> Prowlaar and Transmission are quite helpful and display indexer health, download stats etc.*
 
-# Monitoring
+## Monitoring
 
 ![Homarr stats](/assets/img/posts/Stats.png)
 *Section of my Homarr setup displaying stats from Dashdot and AdGuard*
@@ -122,7 +122,7 @@ Here's how the stack appears on my main dashboard (built on Homarr):
 
 That's a wrap on the current state! 
 
-# Future plans
+## Future plans
 
 1. **More lights and switches** added to the HA network.
 2. **Local [voice](https://www.home-assistant.io/voice_control/) control**. This is far from being a seamless Alexa / Siri replacement but still progressing at a decent pace.
