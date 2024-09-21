@@ -15,7 +15,7 @@ order: 1
 ### Razorpay, Product Manager 2
 
 **Jan 2024 - Present** 
-* PM2 - Recon
+* PM2, Recon
 	* Building and scaling a platform that can reconcile > 10mn transactions per day
 	* Developed self-serve, AI powered capabilities to parse, process and reconcile any financial file formats
 
