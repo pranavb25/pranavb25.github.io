@@ -112,11 +112,11 @@ Here's how the stack appears on my main dashboard (built on Homarr):
 
 ![Portainer](/assets/img/posts/Portainer.png)
 
-* ***Watchtower** helps auto update docker containers. Since I'm not running mission critical stuff, I'm not afraid of things breaking. I do however plan to optimize the watchtower config so that odds of unexpected breakages reduce. 
+* **Watchtower** helps auto update docker containers. Since I'm not running mission critical stuff, I'm not afraid of things breaking. I do however plan to optimize the watchtower config so that odds of unexpected breakages reduce. 
 
-* ***Dashdot** helps monitor CPU,  storage and network stats
+* **Dashdot** helps monitor CPU,  storage and network stats
 
-* ***Homarr** allows me to view the entire stack along with some neat charts etc. 
+* Homarr allows me to view the entire stack along with some neat charts etc. 
 	* Also has a section for container management which is quick and handy.
 	* Also has neat widgets and integrations for common services like Transmission, Dashdot, Jellyseer etc.
 
