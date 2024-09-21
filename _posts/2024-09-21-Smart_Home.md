@@ -32,14 +32,15 @@ To start off with, here's a summary:
 Most, if not all of the above are managed via docker containers.
 
 **Hardware**:
-1. Raspberry Pi 4, 8GB - runs everything, managed headless
-2. 256GB SSD - should've gone with a much higher capacity. Planning expansion now
-3. Sonoff Zigbee dongle - enable Zigbee. [Link](https://robu.in/product/sonoff-zigbee-3-0-usb-dongle-plus-zbdongle-e/)
-4. Philips Hue smart bulb - uses Zigbee
-5. Wipro Smart bulb - uses WiFi
-6. ESP32 - enables creation and addition of random smart devices
+1. **Raspberry Pi** 4, 8GB - runs everything, managed headless
+2. **256GB SSD** - should've gone with a much higher capacity. Planning expansion now
+3. **Sonoff Zigbee dongle** - enable Zigbee. [Link](https://robu.in/product/sonoff-zigbee-3-0-usb-dongle-plus-zbdongle-e/)
+4. **Philips Hue** smart bulb - uses Zigbee
+5. **Wipro Smart bulb** - uses WiFi
+6. **ESP32** - enables creation and addition of random smart devices
 
 Now into the specifics:
+
 # Home Assistant
 
 ![Home Assistant dashbaord](/assets/img/posts/HA.png)
@@ -57,7 +58,7 @@ That being said, I feel I've barely scratched the surface of what all HA has to 
 
 Both of these, I've enabled via Zigbee and WiFi integrations. 
 
-## Zigbee - for smart lights and sensors
+# Zigbee - for smart lights and sensors
 
 * Enabled via MQTT, Zigbee2MQTT + Sonoff Zigbee router stick that goes into the Pi
 * A Philips Hue bulb acts as a router as well and helps establish connection with the Sonoff temp and humidity sensor
@@ -65,11 +66,11 @@ Both of these, I've enabled via Zigbee and WiFi integrations.
 ![Zigbee devices](/assets/img/posts/Zigbee.png)
 *The above snippet from the Zigbee2MQTT panel shows how the Philips node connects to the main router while also acting as a router and helping establish a connection with the sensor.*
 
-## WiFi and LocalTuya - for smart lights
+# WiFi and LocalTuya - for smart lights
 
 * The other smart light I have is from Wipro and the hack used to get that onto HA was to use the LocalTuya integration.
 
-## ESPHome
+# ESPHome
 
 * I've also configured an ESP32 together with ESPHome to add a few sensors e.g. Sound. Haven't used this much till now.
 
