@@ -18,7 +18,7 @@ Neon Memory is a simple pattern recognition game. The concept is straightforward
 
 ## Play It
 
-**[Open Neon Memory](/games/neon-memory/)**
+**[Open Neon Memory](/assets/games/neon-memory/)**
 
 Works on mobile (swipe) and desktop (keyboard or mouse). No install needed.
 
@@ -54,4 +54,4 @@ More games coming. Snake is done. 2048 is done. Looking at Tetris next, or maybe
 
 ---
 
-**Try it:** [Play Neon Memory](/games/neon-memory/)
+**Try it:** [Play Neon Memory](/assets/games/neon-memory/)
