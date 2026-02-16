@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON MEMORY - Pattern Challenge</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+        #start-screen, #game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10,10,10,0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            text-align: center;
+            padding: 20px;
+        }
+        #game-over-screen { display: none; }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px #ff00ff); }
+            to { filter: drop-shadow(0 0 20px #00ffff); }
+        }
+        .tagline { color: #888; margin-bottom: 30px; font-size: 16px; }
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,0,255,0.5);
+        }
+        #stats {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 20px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #00ffff;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+        .tile {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.1s;
+            position: relative;
+            border: 3px solid transparent;
+        }
+        .tile::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            opacity: 0.3;
+        }
+        .tile:active { transform: scale(0.95); }
+        .tile.active {
+            filter: brightness(2);
+            transform: scale(1.1);
+            box-shadow: 0 0 40px currentColor;
+        }
+        .tile.correct {
+            animation: correct 0.3s;
+        }
+        .tile.wrong {
+            animation: wrong 0.5s;
+        }
+        @keyframes correct {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); filter: brightness(3); }
+            100% { transform: scale(1); }
+        }
+        @keyframes wrong {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        #tile-0 { background: #ff0066; color: #ff0066; }
+        #tile-1 { background: #00ff66; color: #00ff66; }
+        #tile-2 { background: #0066ff; color: #0066ff; }
+        #tile-3 { background: #ffcc00; color: #ffcc00; }
+        #tile-4 { background: #cc00ff; color: #cc00ff; }
+        #tile-5 { background: #00ccff; color: #00ccff; }
+        #tile-6 { background: #ff6600; color: #ff6600; }
+        #tile-7 { background: #66ff00; color: #66ff00; }
+        #tile-8 { background: #ff0099; color: #ff0099; }
+        
+        #level-indicator {
+            position: absolute;
+            bottom: 30px;
+            font-size: 18px;
+            color: #666;
+        }
+        #progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            transition: width 0.3s;
+        }
+        .high-score {
+            color: #ffcc00;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        @media (max-width: 400px) {
+            .tile { width: 80px; height: 80px; }
+            h1 { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="start-screen">
+        <h1>NEON MEMORY</h1>
+        <p class="tagline">Watch the pattern. Repeat it. How far can you go?</p>
+        <button class="btn" onclick="startGame()">▶ PLAY</button>
+        <p style="margin-top: 30px; color: #666; font-size: 14px;">
+            High Score: <span id="high-score-display">0</span>
+        </p>
+    </div>
+    
+    <div id="game-over-screen">
+        <h1 style="font-size: 36px;">GAME OVER</h1>
+        <p style="font-size: 48px; margin: 20px 0;">Level <span id="final-level">1</span></p>
+        <p id="feedback" style="color: #888; margin-bottom: 20px;"></p>
+        <button class="btn" onclick="startGame()">↻ TRY AGAIN</button>
+        <button class="btn" onclick="shareResult()" style="background: #1da1f2;">📤 SHARE</button>
+    </div>
+    
+    <div id="stats">
+        <div class="stat">
+            <div class="stat-value" id="level">1</div>
+            <div class="stat-label">Level</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="score">0</div>
+            <div class="stat-label">Score</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value" id="streak">0</div>
+            <div class="stat-label">Best</div>
+        </div>
+    </div>
+    
+    <div id="game-board">
+        <div class="tile" id="tile-0" onclick="handleTileClick(0)"></div>
+        <div class="tile" id="tile-1" onclick="handleTileClick(1)"></div>
+        <div class="tile" id="tile-2" onclick="handleTileClick(2)"></div>
+        <div class="tile" id="tile-3" onclick="handleTileClick(3)"></div>
+        <div class="tile" id="tile-4" onclick="handleTileClick(4)"></div>
+        <div class="tile" id="tile-5" onclick="handleTileClick(5)"></div>
+        <div class="tile" id="tile-6" onclick="handleTileClick(6)"></div>
+        <div class="tile" id="tile-7" onclick="handleTileClick(7)"></div>
+        <div class="tile" id="tile-8" onclick="handleTileClick(8)"></div>
+    </div>
+    
+    <div id="level-indicator">Watch the pattern...</div>
+    <div id="progress-bar" style="width: 0%"></div>
+
+    <script>
+        let pattern = [];
+        let playerPattern = [];
+        let level = 1;
+        let score = 0;
+        let highScore = parseInt(localStorage.getItem('neon-highscore') || '0');
+        let isPlaying = false;
+        let isShowingPattern = false;
+        
+        const SOUNDS = {
+            0: 261.63, // C4
+            1: 293.66, // D4
+            2: 329.63, // E4
+            3: 349.23, // F4
+            4: 392.00, // G4
+            5: 440.00, // A4
+            6: 493.88, // B4
+            7: 523.25, // C5
+            8: 587.33  // D5
+        };
+        
+        let audioContext = null;
+        
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function playTone(freq, duration = 200) {
+            if (!audioContext) return;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.frequency.value = freq;
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+            osc.start();
+            osc.stop(audioContext.currentTime + duration / 1000);
+        }
+        
+        function playError() {
+            if (!audioContext) return;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.frequency.value = 150;
+            osc.type = 'sawtooth';
+            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            osc.start();
+            osc.stop(audioContext.currentTime + 0.3);
+        }
+        
+        function startGame() {
+            initAudio();
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('game-over-screen').style.display = 'none';
+            document.getElementById('high-score-display').textContent = highScore;
+            
+            pattern = [];
+            playerPattern = [];
+            level = 1;
+            score = 0;
+            isPlaying = true;
+            
+            updateStats();
+            nextLevel();
+        }
+        
+        function nextLevel() {
+            playerPattern = [];
+            pattern.push(Math.floor(Math.random() * 9));
+            
+            document.getElementById('level-indicator').textContent = `Level ${level} - Watch...`;
+            document.getElementById('progress-bar').style.width = '0%';
+            
+            isShowingPattern = true;
+            showPattern();
+        }
+        
+        async function showPattern() {
+            await sleep(500);
+            
+            for (let i = 0; i < pattern.length; i++) {
+                await sleep(300);
+                activateTile(pattern[i]);
+                await sleep(500);
+                deactivateTile(pattern[i]);
+            }
+            
+            isShowingPattern = false;
+            document.getElementById('level-indicator').textContent = 'Your turn!';
+            document.getElementById('progress-bar').style.width = '100%';
+        }
+        
+        function activateTile(index) {
+            const tile = document.getElementById(`tile-${index}`);
+            tile.classList.add('active');
+            playTone(SOUNDS[index]);
+        }
+        
+        function deactivateTile(index) {
+            const tile = document.getElementById(`tile-${index}`);
+            tile.classList.remove('active');
+        }
+        
+        function handleTileClick(index) {
+            if (!isPlaying || isShowingPattern) return;
+            
+            activateTile(index);
+            setTimeout(() => deactivateTile(index), 200);
+            
+            playerPattern.push(index);
+            
+            // Check if correct so far
+            const currentIndex = playerPattern.length - 1;
+            if (playerPattern[currentIndex] !== pattern[currentIndex]) {
+                gameOver();
+                return;
+            }
+            
+            // Check if complete
+            if (playerPattern.length === pattern.length) {
+                score += level * 10;
+                level++;
+                
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('neon-highscore', highScore);
+                }
+                
+                updateStats();
+                document.getElementById('level-indicator').textContent = '✓ Perfect!';
+                setTimeout(nextLevel, 1000);
+            }
+        }
+        
+        function gameOver() {
+            isPlaying = false;
+            playError();
+            
+            document.getElementById('final-level').textContent = level;
+            document.getElementById('game-over-screen').style.display = 'flex';
+            
+            const feedback = document.getElementById('feedback');
+            if (level <= 3) feedback.textContent = 'Keep practicing! You\'ll get better!';
+            else if (level <= 6) feedback.textContent = 'Good memory! Keep it up!';
+            else if (level <= 10) feedback.textContent = 'Impressive! You have a great memory!';
+            else feedback.textContent = 'INCREDIBLE! You\'re a memory master!';
+        }
+        
+        function updateStats() {
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = highScore;
+        }
+        
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        function shareResult() {
+            const text = `I reached Level ${level} in NEON MEMORY! Can you beat my score? 🧠✨`;
+            if (navigator.share) {
+                navigator.share({ text, title: 'NEON MEMORY' });
+            } else {
+                navigator.clipboard.writeText(text + ' Play at: [your-url]');
+                alert('Score copied! Challenge your friends!');
+            }
+        }
+        
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (!isPlaying || isShowingPattern) return;
+            const key = parseInt(e.key);
+            if (key >= 1 && key <= 9) {
+                handleTileClick(key - 1);
+            }
+        });
+    </script>
+</body>
+</html>
