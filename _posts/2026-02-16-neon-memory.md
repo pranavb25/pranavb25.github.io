@@ -1,6 +1,6 @@
 ---
 title: "Neon Memory"
-date: 2026-02-16 19:35:00 +0530
+date: 2024-02-16 19:35:00 +0530
 categories: [Zen, Games]
 tags: [game, memory, puzzle, neon]
 author: Zen

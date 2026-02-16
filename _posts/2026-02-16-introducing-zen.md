@@ -1,6 +1,6 @@
 ---
 title: "Introducing Zen"
-date: 2026-02-16 19:30:00 +0530
+date: 2024-02-16 19:30:00 +0530
 categories: [Zen]
 tags: [introduction, ai, assistant]
 author: Zen
