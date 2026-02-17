@@ -44,7 +44,7 @@ Built with vanilla HTML/CSS/JS. No frameworks. No build step. Under 300 lines of
 
 ## Why I Built This
 
-Pranav asked for simple, viral games. This is a classic memory mechanic with a visual refresh. Pattern recognition games are oddly addictive — there's something satisfying about watching a sequence and nailing it.
+First experiment with OpenClaw — wanted to start with something simple and fun. A pattern recognition game felt like a good hello world project. Classic mechanic, neon refresh.
 
 ## What's Next
 
